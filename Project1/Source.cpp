@@ -4,6 +4,7 @@
 #include <commctrl.h>
 #include <tlhelp32.h>
 #include <fstream>
+#include <time.h>
 #include "resource.h"
 
 #pragma comment(lib,"comctl32")
@@ -16,8 +17,11 @@ HWND hNew;
 HWND hProcName;
 HWND hProcList;
 HWND hStatID;
+HWND hTime;
 HANDLE hFile;
 TCHAR str[100];
+SYSTEMTIME st;
+TCHAR str_time[50];
 
 int WINAPI _tWinMain(HINSTANCE hInst, HINSTANCE hPrev, LPTSTR lpszCmdLine, int nCmdShow)
 {
@@ -46,6 +50,12 @@ void ShowProcList(HWND hList) {
 	CloseHandle(hSnapshot);
 }
 
+VOID CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
+	GetLocalTime(&st);
+	wsprintf(str_time, TEXT("%02d.%02d.%03d"), st.wDay, st.wMonth, st.wYear);
+	SendMessage(hTime, WM_SETTEXT, 0, LPARAM(str_time));
+}
+
 BOOL CALLBACK DlgProc(HWND hWnd, UINT mes, WPARAM wp, LPARAM lp)
 {
 	switch (mes)
@@ -59,15 +69,16 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT mes, WPARAM wp, LPARAM lp)
 		hProcList = GetDlgItem(hWnd, IDC_LIST1);
 		hStatID = GetDlgItem(hWnd, IDC_EDIT2);
 	   	ShowProcList(hProcList);
+		hTime = GetDlgItem(hWnd, IDC_EDIT3);
 	}
 	return TRUE;
 
 	case WM_COMMAND:
 	{
+		SetTimer(hWnd, 1, 1000, TimerProc);
+		SetTimer(hWnd, 2, 10000, NULL);
+
 		if (LOWORD(wp) == IDC_BUTTON1) {
-			SendMessage(hProcList, LB_RESETCONTENT, 0, 0);
-			ShowProcList(hProcList);
-			
 			std::ofstream WriteToFile(TEXT("Process.txt"), std::ios::in | std::ios::trunc);
 			HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 			PROCESSENTRY32 processInfo = { sizeof(PROCESSENTRY32) };
@@ -108,6 +119,12 @@ BOOL CALLBACK DlgProc(HWND hWnd, UINT mes, WPARAM wp, LPARAM lp)
 			wsprintf(buf, TEXT("10 %d"), procId);
 			SendMessage(hStatID, WM_SETTEXT, 0, LPARAM(buf));			
 		}
+	}
+	break;
+
+	case WM_TIMER: {
+		SendMessage(hProcList, LB_RESETCONTENT, 0, 0);
+		ShowProcList(hProcList);
 	}
 	break;
 

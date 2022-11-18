@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
+// Русский (Россия) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -55,13 +55,14 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "Dialog"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    PUSHBUTTON      "Обновить",IDC_BUTTON1,56,18,80,17
     PUSHBUTTON      "Завершить",IDC_BUTTON2,57,39,79,16
     LISTBOX         IDC_LIST1,33,65,131,160,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT1,34,234,124,14,ES_AUTOHSCROLL
     PUSHBUTTON      "новый",IDC_BUTTON3,71,257,50,14
     EDITTEXT        IDC_EDIT2,179,74,67,18,ES_AUTOHSCROLL | ES_READONLY
     LTEXT           "ID",IDC_STATIC,179,60,11,8
+    EDITTEXT        IDC_EDIT3,181,118,65,16,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Data",IDC_STATIC,181,107,15,8
 END
 
 
@@ -92,10 +93,18 @@ END
 
 IDD_DIALOG1 AFX_DIALOG_LAYOUT
 BEGIN
-    0
+    0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    100, 0, 0, 0,
+    0, 0, 0, 0
 END
 
-#endif    // Russian (Russia) resources
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
